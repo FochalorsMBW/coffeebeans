@@ -7,7 +7,7 @@ const products = [
         price: 24.99,
         description: "Bright, fruity notes with a floral aroma. These seeds produce plants that thrive in high-altitude environments.",
         featured: true,
-        image: "./assets/coffee.png"
+        image: "/assets/coffee.png"
     },
     {
         id: 2,
@@ -16,7 +16,7 @@ const products = [
         price: 19.99,
         description: "Well-balanced with caramel sweetness and a nutty finish. Adaptable to various growing conditions.",
         featured: true,
-        image: "./assets/coffee.png"
+        image: "/assets/coffee.png"
     },
     {
         id: 3,
@@ -25,7 +25,7 @@ const products = [
         price: 39.99,
         description: "Smooth, clean taste with mild sweetness and minimal bitterness. Grows best in rich, volcanic soil.",
         featured: true,
-        image: "./assets/coffee.png"
+        image: "/assets/coffee.png"
     },
     {
         id: 4,
@@ -34,7 +34,7 @@ const products = [
         price: 22.99,
         description: "Full-bodied with earthy, herbal notes and low acidity. Resilient plants suitable for humid climates.",
         featured: true,
-        image: "./assets/coffee.png"
+        image: "/assets/coffee.png"
     }
 ];
 
