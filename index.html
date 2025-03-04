@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DexterBeans | Premium Coffee Seeds</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/darkmode.css">
+    <link rel="stylesheet" href="css/i18n.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>Dexter<span>Beans</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="index.html" data-i18n="nav_home">Home</a></li>
+                <li><a href="products.html" data-i18n="nav_products">Products</a></li>
+                <li><a href="about.html" data-i18n="nav_about">About</a></li>
+                <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+            </ul>
+            <!-- Theme toggle and language selector will be inserted here by JS -->
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <div class="nav-actions">
+                <button id="dark-mode-toggle" class="dark-mode-toggle" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <div class="hamburger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 data-i18n="hero_title">Premium Coffee Seeds</h1>
+                <p data-i18n="hero_subtitle">Grow your own specialty coffee with our carefully selected seeds</p>
+                <a href="products.html" class="btn" data-i18n="shop_now">Shop Now</a>
+            </div>
+        </section>
+
+        <section class="featured-products">
+            <h2 data-i18n="featured_products">Featured Products</h2>
+            <div class="product-grid" id="featured-products-container">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </section>
+
+        <section class="about-preview">
+            <div class="about-image">
+                <img src="/assets/plantation.jpg" alt="Coffee plantation">
+            </div>
+            <div class="about-text">
+                <h2 data-i18n="our_story">Our Story</h2>
+                <p data-i18n="about_summary">At DexterBeans, we believe everyone deserves to experience the joy of
+                    growing their own coffee. Our seeds are sourced directly from the world's finest coffee regions.</p>
+                <a href="about.html" class="btn btn-secondary" data-i18n="learn_more">Learn More</a>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2 data-i18n="testimonials_title">What Our Customers Say</h2>
+            <div class="testimonial-slider" id="testimonial-container">
+                <!-- Testimonials will be loaded dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>DexterBeans</h3>
+                <p>Premium coffee seeds for enthusiasts and growers.</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="quick_links">Quick Links</h3>
+                <ul>
+                    <li><a href="index.html" data-i18n="nav_home">Home</a></li>
+                    <li><a href="products.html" data-i18n="nav_products">Products</a></li>
+                    <li><a href="about.html" data-i18n="nav_about">About</a></li>
+                    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="contact">Contact</h3>
+                <p>Email: info@dexterbeans.com</p>
+                <p>Phone: +62 823-4567-8901</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="follow_us">Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-i18n="copyright">&copy; 2025 DexterBeans. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2 data-i18n="your_cart">Your Cart</h2>
+                <button class="close-cart">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be loaded dynamically -->
+            </div>
+            <div class="cart-total">
+                <p><span data-i18n="total">Total</span>: <span id="cart-total-price">$0.00</span></p>
+            </div>
+            <button class="btn checkout-btn" id="checkout-btn" data-i18n="checkout">Checkout</button>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/darkmode.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | DexterBeans</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/darkmode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .product-header {
+            background-color: var(--light-bg);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .product-header h1 {
+            margin-bottom: 1rem;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .filter-btn {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .products-container {
+            padding: 3rem 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .product-details {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .product-details.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .product-details-content {
+            width: 90%;
+            max-width: 800px;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .product-details.active .product-details-content {
+            transform: translateY(0);
+        }
+
+        .product-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .product-details-image {
+            height: 300px;
+        }
+
+        .product-details-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-details-info {
+            padding: 2rem;
+        }
+
+        .product-details-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-details-origin {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .product-details-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .product-details-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-details-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .close-details {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .product-details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>Dexter<span>Beans</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li class="active"><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <div class="nav-actions">
+                <button id="dark-mode-toggle" class="dark-mode-toggle" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <div class="hamburger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="product-header">
+            <h1>Our Coffee Seeds</h1>
+            <p>Handpicked from the world's finest coffee regions. Grow your own coffee plants and experience the joy of
+                cultivation.</p>
+
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="africa">Africa</button>
+                <button class="filter-btn" data-filter="americas">Americas</button>
+                <button class="filter-btn" data-filter="asia">Asia & Pacific</button>
+            </div>
+        </section>
+
+        <section class="products-container">
+            <div class="product-grid" id="all-products-container">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Product Details Modal -->
+    <div class="product-details" id="product-details">
+        <div class="product-details-content">
+            <button class="close-details">&times;</button>
+            <div class="product-details-grid">
+                <div class="product-details-image">
+                    <img id="details-image" src="" alt="">
+                </div>
+                <div class="product-details-info">
+                    <h2 class="product-details-title" id="details-title"></h2>
+                    <p class="product-details-origin" id="details-origin"></p>
+                    <p class="product-details-description" id="details-description"></p>
+                    <p class="product-details-price" id="details-price"></p>
+                    <div class="product-details-buttons">
+                        <button class="btn" id="details-add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Your Cart</h2>
+                <button class="close-cart">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be loaded dynamically -->
+            </div>
+            <div class="cart-total">
+                <p>Total: <span id="cart-total-price">$0.00</span></p>
+            </div>
+            <button class="btn checkout-btn" id="checkout-btn">Checkout</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>DexterBeans</h3>
+                <p>Premium coffee seeds for enthusiasts and growers.</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="quick_links">Quick Links</h3>
+                <ul>
+                    <li><a href="index.html" data-i18n="nav_home">Home</a></li>
+                    <li><a href="products.html" data-i18n="nav_products">Products</a></li>
+                    <li><a href="about.html" data-i18n="nav_about">About</a></li>
+                    <li><a href="contact.html" data-i18n="nav_contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="contact">Contact</h3>
+                <p>Email: info@dexterbeans.com</p>
+                <p>Phone: +62 823-4567-8901</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="follow_us">Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-i18n="copyright">&copy; 2025 DexterBeans. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        // Full product data - in a real app, this would come from a server
+        const allProducts = [
+            {
+                id: 1,
+                name: "Ethiopian Yirgacheffe",
+                origin: "Ethiopia",
+                region: "africa",
+                price: 24.99,
+                description: "Bright, fruity notes with a floral aroma. These seeds produce plants that thrive in high-altitude environments.",
+                featured: true,
+                image: "./assets/coffee.png"
+            },
+            {
+                id: 2,
+                name: "Colombian Supremo",
+                origin: "Colombia",
+                region: "americas",
+                price: 19.99,
+                description: "Well-balanced with caramel sweetness and a nutty finish. Adaptable to various growing conditions.",
+                featured: true,
+                image: "./assets/coffee.png"
+            },
+            {
+                id: 3,
+                name: "Jamaican Blue Mountain",
+                origin: "Jamaica",
+                region: "americas",
+                price: 39.99,
+                description: "Smooth, clean taste with mild sweetness and minimal bitterness. Grows best in rich, volcanic soil.",
+                featured: true,
+                image: "./assets/coffee.png"
+            },
+            {
+                id: 4,
+                name: "Sumatra Mandheling",
+                origin: "Indonesia",
+                region: "asia",
+                price: 22.99,
+                description: "Full-bodied with earthy, herbal notes and low acidity. Resilient plants suitable for humid climates.",
+                featured: true,
+                image: "./assets/coffee.png"
+            },
+            {
+                id: 5,
+                name: "Kenyan AA",
+                origin: "Kenya",
+                region: "africa",
+                price: 26.99,
+                description: "Bold, fruity flavor with a wine-like acidity. These seeds produce plants that develop complex flavor profiles when grown in well-draining soil.",
+                featured: false,
+                image: "./assets/coffee.png"
+            },
+            {
+                id: 6,
+                name: "Costa Rican Tarrazu",
+                origin: "Costa Rica",
+                region: "americas",
+                price: 21.99,
+                description: "Bright acidity with chocolate and caramel notes. Seeds thrive in medium altitudes with moderate rainfall.",
+                featured: false,
+                image: "./assets/coffee.png"
+            },
+            {
+                id: 7,
+                name: "Hawaiian Kona",
+                origin: "Hawaii",
+                region: "americas",
+                price: 44.99,
+                description: "Smooth, mild flavor with sweet undertones. These rare seeds produce plants that prefer rich volcanic soil and gentle rainfall.",
+                featured: false,
+                image: "./assets/coffee.png"
+            },
+            {
+                id: 8,
+                name: "Papua New Guinea",
+                origin: "Papua New Guinea",
+                region: "asia",
+                price: 23.99,
+                description: "Fruity and floral with a hint of spice. These seeds produce high-yield plants when grown in organically-rich soil.",
+                featured: false,
+                image: "./assets/coffee.png"
+            }
+        ];
+
+        // DOM elements
+        const productsContainer = document.getElementById('all-products-container');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const productDetails = document.getElementById('product-details');
+        const closeDetails = document.querySelector('.close-details');
+        const detailsImage = document.getElementById('details-image');
+        const detailsTitle = document.getElementById('details-title');
+        const detailsOrigin = document.getElementById('details-origin');
+        const detailsDescription = document.getElementById('details-description');
+        const detailsPrice = document.getElementById('details-price');
+        const detailsAddToCart = document.getElementById('details-add-to-cart');
+
+        // Current active product for the details modal
+        let activeProductId = null;
+
+        // Render products
+        function renderProducts(products) {
+            if (!productsContainer) return;
+
+            productsContainer.innerHTML = '';
+
+            if (products.length === 0) {
+                productsContainer.innerHTML = '<p class="no-products">No products found.</p>';
+                return;
+            }
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.classList.add('product-card');
+
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p class="origin">${product.origin}</p>
+                        <p class="price">$${product.price.toFixed(2)}</p>
+                        <div class="product-buttons">
+                            <button class="btn view-details" data-id="${product.id}">View Details</button><br><br>
+                            <button class="btn add-to-cart" data-id="${product.id}">Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+
+                productsContainer.appendChild(productCard);
+            });
+
+            // Add event listeners to "Add to Cart" buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    addToCart(productId);
+                });
+            });
+
+            // Add event listeners to "View Details" buttons
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    showProductDetails(productId);
+                });
+            });
+        }
+
+        // Filter products
+        function filterProducts(region) {
+            if (region === 'all') {
+                renderProducts(allProducts);
+            } else {
+                const filteredProducts = allProducts.filter(product => product.region === region);
+                renderProducts(filteredProducts);
+            }
+        }
+
+        // Show product details
+        function showProductDetails(productId) {
+            const product = allProducts.find(p => p.id === productId);
+
+            if (!product) return;
+
+            // Set active product
+            activeProductId = productId;
+
+            // Update modal content
+            detailsImage.src = product.image;
+            detailsImage.alt = product.name;
+            detailsTitle.textContent = product.name;
+            detailsOrigin.textContent = product.origin;
+            detailsDescription.textContent = product.description;
+            detailsPrice.textContent = `$${product.price.toFixed(2)}`;
+
+            // Show modal
+            productDetails.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Initialize the page
+        function init() {
+            // Extend the global products data
+            window.appData.products = allProducts;
+
+            // Initial render
+            renderProducts(allProducts);
+
+            // Filter button event listeners
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Filter products
+                    const filter = this.getAttribute('data-filter');
+                    filterProducts(filter);
+                });
+            });
+
+            // Close details modal
+            closeDetails.addEventListener('click', () => {
+                productDetails.classList.remove('active');
+                document.body.style.overflow = '';
+                activeProductId = null;
+            });
+
+            // Close modal when clicking outside
+            productDetails.addEventListener('click', (e) => {
+                if (e.target === productDetails) {
+                    productDetails.classList.remove('active');
+                    document.body.style.overflow = '';
+                    activeProductId = null;
+                }
+            });
+
+            // Add to cart from details
+            detailsAddToCart.addEventListener('click', () => {
+                if (activeProductId) {
+                    addToCart(activeProductId);
+                    productDetails.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        // Run initialization when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+    <script src="js/darkmode.js"></script>
+</body>
+
+</html>
