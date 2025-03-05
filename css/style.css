@@ -1474,17 +1474,20 @@ footer {
 }
 
 .notification {
-  position: fixed;
-  top: 600px;
-  right: 20px;
   padding: 1rem 1.5rem;
   background-color: white;
   border-radius: 4px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1300;
   transform: translateX(150%);
-  transition: transform 0.3s ease;
-  height: 55px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  max-width: 300px;
+  min-height: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0;
 }
 
 .notification.show {
