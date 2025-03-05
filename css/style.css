@@ -1187,7 +1187,7 @@ footer {
 }
 
 .faq-question:hover {
-  background-color: #f0f0f0;
+  background-color: var(--hover-bg-);
 }
 
 .faq-question h3 {
